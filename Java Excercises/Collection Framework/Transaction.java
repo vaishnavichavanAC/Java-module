@@ -1,9 +1,13 @@
+
 package collection;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.function.Consumer;
 
-public class Transaction {
+class Transaction {
 
-    // Data members
     private int txId;
     private LocalDate txDate;
     private float txAmount;
@@ -21,46 +25,99 @@ public class Transaction {
         this.txArrears = txArrears;
     }
 
-    // Getters and Setters
-
+    // Getters
     public int getTxId() {
         return txId;
-    }
-
-    public void setTxId(int txId) {
-        this.txId = txId;
     }
 
     public LocalDate getTxDate() {
         return txDate;
     }
 
-    public void setTxDate(LocalDate txDate) {
-        this.txDate = txDate;
-    }
-
     public float getTxAmount() {
         return txAmount;
-    }
-
-    public void setTxAmount(float txAmount) {
-        this.txAmount = txAmount;
     }
 
     public boolean isTxStatus() {
         return txStatus;
     }
 
-    public void setTxStatus(boolean txStatus) {
-        this.txStatus = txStatus;
-    }
-
     public boolean isTxArrears() {
         return txArrears;
     }
+}
 
-    public void setTxArrears(boolean txArrears) {
-        this.txArrears = txArrears;
+public class TransactionMain {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Collection Framework
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        // Taking input for 5 transactions
+        for (int i = 1; i <= 5; i++) {
+
+            System.out.println("\nEnter details for Transaction " + i);
+
+            System.out.print("Enter Transaction ID: ");
+            int txId = sc.nextInt();
+
+            System.out.print("Enter Transaction Date (yyyy-mm-dd): ");
+            String date = sc.next();
+
+            LocalDate txDate = LocalDate.parse(date);
+
+            System.out.print("Enter Transaction Amount: ");
+            float txAmount = sc.nextFloat();
+
+            System.out.print("Enter Transaction Status (true/false): ");
+            boolean txStatus = sc.nextBoolean();
+
+            System.out.print("Enter Transaction Arrears (true/false): ");
+            boolean txArrears = sc.nextBoolean();
+
+            // Create Transaction object
+            Transaction transaction = new Transaction(
+                    txId,
+                    txDate,
+                    txAmount,
+                    txStatus,
+                    txArrears
+            );
+
+            // Store object in Collection
+            transactions.add(transaction);
+        }
+
+        // Lambda expression using Consumer
+        Consumer<Transaction> displayTransaction = (transaction) -> {
+
+            System.out.println("Transaction ID: "
+                    + transaction.getTxId());
+
+            System.out.println("Transaction Date: "
+                    + transaction.getTxDate());
+
+            System.out.println("Transaction Amount: "
+                    + transaction.getTxAmount());
+
+            System.out.println("Transaction Status: "
+                    + transaction.isTxStatus());
+
+            System.out.println("Transaction Arrears: "
+                    + transaction.isTxArrears());
+
+            System.out.println("----------------------------");
+        };
+
+        // Apply Lambda to every Transaction object
+        System.out.println("\n========== TRANSACTIONS ==========");
+
+        transactions.forEach(displayTransaction);
+
+        sc.close();
     }
 }
 
